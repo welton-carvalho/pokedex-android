@@ -10,27 +10,27 @@ metadata:
   author: Google LLC
   last-updated: '2026-05-05'
   keywords:
-    - recipe
-    - Android
-    - Navigation 2
-    - Navigation 3
-    - migration
-    - Compose
-    - guide
-    - dependencies
-    - NavKey
-    - NavHost
-    - NavDisplay
-    - BottomSheet
-    - list-detail
-    - scenes
-    - two-pane
-    - supporting pane
-    - multiple backstacks
-    - dialog
-    - Hilt
-    - ViewModel
-    - View interop.
+  - recipe
+  - Android
+  - Navigation 2
+  - Navigation 3
+  - migration
+  - Compose
+  - guide
+  - dependencies
+  - NavKey
+  - NavHost
+  - NavDisplay
+  - BottomSheet
+  - list-detail
+  - scenes
+  - two-pane
+  - supporting pane
+  - multiple backstacks
+  - dialog
+  - Hilt
+  - ViewModel
+  - View interop.
 ---
 
 ## Migration guide
