@@ -32,5 +32,6 @@ fun Pokemon.toDetailUiModel(): PokemonDetailUiModel {
                 value = stat.baseStat,
             )
         },
+        description = description,
     )
 }

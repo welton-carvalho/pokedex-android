@@ -4,6 +4,7 @@ import android.app.Application
 import br.com.pokedex.core.common.di.commonModule
 import br.com.pokedex.core.observability.AppLogger
 import br.com.pokedex.data.local.di.localModule
+import br.com.pokedex.data.local.entity.MyObjectBox
 import br.com.pokedex.data.network.di.networkModule
 import br.com.pokedex.data.repository.di.repositoryModule
 import br.com.pokedex.feature.pokemondetail.di.pokemonDetailModule
@@ -13,18 +14,27 @@ import coil3.SingletonImageLoader
 import coil3.disk.DiskCache
 import coil3.memory.MemoryCache
 import coil3.request.crossfade
+import io.objectbox.BoxStore
 import okio.Path.Companion.toOkioPath
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import org.koin.dsl.module
 
 class PokedexLabApplication : Application() {
+
+    lateinit var boxStore: BoxStore
+        private set
+
     override fun onCreate() {
         super.onCreate()
         AppLogger.init(BuildConfig.DEBUG)
+        boxStore = MyObjectBox.builder().androidContext(this).build()
         initCoil()
         startKoin {
             androidContext(this@PokedexLabApplication)
             modules(
+                // Provide the BoxStore instance so localModule can resolve it
+                module { single { boxStore } },
                 commonModule,
                 networkModule,
                 localModule,

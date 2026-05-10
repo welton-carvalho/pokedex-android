@@ -14,6 +14,7 @@ data class PokemonDetailUiModel(
     val weight: String,
     val abilities: List<String>,
     val stats: List<StatUiModel>,
+    val description: String,
 )
 
 @Immutable

@@ -13,22 +13,29 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Divider
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.FitnessCenter
+import androidx.compose.material.icons.filled.Straighten
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -38,7 +45,6 @@ import br.com.pokedex.core.designsystem.component.PokemonTypeChip
 import br.com.pokedex.core.designsystem.theme.Body2Regular
 import br.com.pokedex.core.designsystem.theme.Body3Regular
 import br.com.pokedex.core.designsystem.theme.Gray2
-import br.com.pokedex.core.designsystem.theme.Gray3
 import br.com.pokedex.core.designsystem.theme.HeadlineBold
 import br.com.pokedex.core.designsystem.theme.Subtitle1Bold
 import br.com.pokedex.core.designsystem.theme.Subtitle2Bold
@@ -57,7 +63,11 @@ import org.koin.core.parameter.parametersOf
 fun PokemonDetailScreen(
     pokemonId: Int,
     onBack: () -> Unit,
-    viewModel: PokemonDetailViewModel = koinViewModel(parameters = { parametersOf(pokemonId) }),
+    onNavigateToNext: (Int) -> Unit = {},
+    viewModel: PokemonDetailViewModel = koinViewModel(
+        key = "pokemon_detail_$pokemonId",
+        parameters = { parametersOf(pokemonId) },
+    ),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -85,6 +95,7 @@ fun PokemonDetailScreen(
             PokemonDetailContent(
                 pokemon = state.pokemon!!,
                 onBack = { viewModel.onIntent(PokemonDetailIntent.NavigateBack) },
+                onNavigateToNext = { onNavigateToNext(state.pokemon!!.id + 1) },
             )
         }
     }
@@ -94,20 +105,21 @@ fun PokemonDetailScreen(
 private fun PokemonDetailContent(
     pokemon: PokemonDetailUiModel,
     onBack: () -> Unit,
+    onNavigateToNext: () -> Unit,
 ) {
+    val typeColor = pokemon.typeColor
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(pokemon.typeColor),
+            .background(typeColor),
     ) {
-        // Pokéball watermark
-        Text(
-            text = "⬤",
-            style = HeadlineBold.copy(fontSize = androidx.compose.ui.unit.TextUnit(200f, androidx.compose.ui.unit.TextUnitType.Sp)),
-            color = White.copy(alpha = 0.1f),
+        PokeballWatermark(
+            color = White,
             modifier = Modifier
+                .size(220.dp)
                 .align(Alignment.TopEnd)
-                .offset(x = 60.dp, y = (-30).dp),
+                .offset(x = 40.dp, y = (-10).dp),
         )
 
         Column(modifier = Modifier.fillMaxSize()) {
@@ -134,37 +146,30 @@ private fun PokemonDetailContent(
                 Text(
                     text = "#${pokemon.id.toString().padStart(3, '0')}",
                     style = Subtitle2Bold,
-                    color = White,
-                    modifier = Modifier.padding(end = 16.dp),
+                    color = White.copy(alpha = 0.75f),
                 )
+                IconButton(onClick = onNavigateToNext) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = "Next Pokémon",
+                        tint = White,
+                    )
+                }
             }
 
-            // Artwork
-            AsyncImage(
-                model = pokemon.imageUrl,
-                contentDescription = pokemon.name,
-                modifier = Modifier
-                    .size(200.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .offset(y = 56.dp),
-            )
-
-            // White card
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        color = White,
-                        shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
-                    )
-                    .padding(top = 56.dp),
-            ) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                // White content card
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                        .padding(horizontal = 20.dp, vertical = 16.dp),
+                        .padding(top = 84.dp)
+                        .background(
+                            color = White,
+                            shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
+                        )
+                        .padding(top = 60.dp)
+                        .verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     // Type chips
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -175,61 +180,174 @@ private fun PokemonDetailContent(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // About section
-                    Text(text = "About", style = Subtitle1Bold, color = pokemon.typeColor)
+                    Text(text = "About", style = Subtitle1Bold, color = typeColor)
+
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(text = pokemon.weight, style = Subtitle2Bold)
-                            Text(text = "Weight", style = Body3Regular, color = Gray2)
-                        }
-                        Divider(
-                            color = Gray3,
-                            modifier = Modifier
-                                .height(32.dp)
-                                .size(width = 1.dp, height = 32.dp),
+                    AboutSection(pokemon = pokemon, typeColor = typeColor)
+
+                    if (pokemon.description.isNotBlank()) {
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = pokemon.description,
+                            style = Body2Regular,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(horizontal = 20.dp),
                         )
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(text = pokemon.height, style = Subtitle2Bold)
-                            Text(text = "Height", style = Body3Regular, color = Gray2)
-                        }
-                        Divider(
-                            color = Gray3,
-                            modifier = Modifier
-                                .height(32.dp)
-                                .size(width = 1.dp, height = 32.dp),
-                        )
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            pokemon.abilities.forEach { ability ->
-                                Text(text = ability, style = Body3Regular, textAlign = TextAlign.Center)
-                            }
-                            Text(text = "Moves", style = Body3Regular, color = Gray2)
-                        }
                     }
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    // Base stats
-                    Text(text = "Base Stats", style = Subtitle1Bold, color = pokemon.typeColor)
+                    Text(text = "Base Stats", style = Subtitle1Bold, color = typeColor)
+
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    pokemon.stats.forEach { stat ->
-                        PokemonStatBar(
-                            label = stat.label,
-                            value = stat.value,
-                            color = pokemon.typeColor,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 4.dp),
-                        )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        pokemon.stats.forEach { stat ->
+                            PokemonStatBar(
+                                label = stat.label,
+                                value = stat.value,
+                                color = typeColor,
+                                modifier = Modifier.fillMaxWidth(),
+                            )
+                        }
                     }
+
+                    Spacer(modifier = Modifier.height(32.dp))
                 }
+
+                // Pokemon artwork overlapping card top
+                AsyncImage(
+                    model = pokemon.imageUrl,
+                    contentDescription = pokemon.name,
+                    modifier = Modifier
+                        .size(200.dp)
+                        .align(Alignment.TopCenter)
+                        .offset(y = (-20).dp),
+                )
             }
         }
     }
+}
+
+@Composable
+private fun AboutSection(
+    pokemon: PokemonDetailUiModel,
+    typeColor: Color,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        AboutItem(
+            icon = Icons.Default.FitnessCenter,
+            value = pokemon.weight,
+            label = "Weight",
+        )
+
+        VerticalDivider(
+            modifier = Modifier.height(48.dp),
+            thickness = 1.dp,
+            color = Color(0xFFE0E0E0),
+        )
+
+        AboutItem(
+            icon = Icons.Default.Straighten,
+            value = pokemon.height,
+            label = "Height",
+        )
+
+        VerticalDivider(
+            modifier = Modifier.height(48.dp),
+            thickness = 1.dp,
+            color = Color(0xFFE0E0E0),
+        )
+
+        // Moves — sem ícone, só lista de abilities
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            pokemon.abilities.forEach { ability ->
+                Text(
+                    text = ability,
+                    style = Subtitle3Bold,
+                    textAlign = TextAlign.Center,
+                )
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = "Moves",
+                style = Body3Regular,
+                color = Gray2,
+            )
+        }
+    }
+}
+
+@Composable
+private fun AboutItem(
+    icon: ImageVector,
+    value: String,
+    label: String,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier,
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = Color(0xFF212121),
+                modifier = Modifier.size(16.dp),
+            )
+            Text(
+                text = value,
+                style = Subtitle3Bold,
+            )
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = label,
+            style = Body3Regular,
+            color = Gray2,
+        )
+    }
+}
+
+@Composable
+private fun PokeballWatermark(
+    color: Color,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier.drawBehind {
+            val radius = size.minDimension / 2f
+            val stroke = radius * 0.06f
+            val innerRadius = radius * 0.22f
+            val c = color.copy(alpha = 0.25f)
+
+            drawCircle(color = c, radius = radius, style = Stroke(width = stroke))
+            drawLine(
+                color = c,
+                start = Offset(0f, center.y),
+                end = Offset(size.width, center.y),
+                strokeWidth = stroke,
+            )
+            drawCircle(color = c, radius = innerRadius + stroke, style = Stroke(width = stroke))
+            drawCircle(color = c, radius = innerRadius)
+        },
+    )
 }

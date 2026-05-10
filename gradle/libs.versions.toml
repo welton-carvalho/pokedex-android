@@ -1,6 +1,7 @@
 [versions]
 agp = "9.1.1"
 kotlin = "2.2.10"
+ksp = "2.2.10-1.0.31"
 kotlinSerialization = "2.2.21"
 kotlinxSerializationCore = "1.9.0"
 
@@ -93,6 +94,7 @@ koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin"
 # Database
 objectbox-android = { group = "io.objectbox", name = "objectbox-android", version.ref = "objectbox" }
 objectbox-kotlin = { group = "io.objectbox", name = "objectbox-kotlin", version.ref = "objectbox" }
+objectbox-processor = { group = "io.objectbox", name = "objectbox-processor", version.ref = "objectbox" }
 
 # Observability
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
@@ -162,6 +164,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 objectbox = { id = "io.objectbox", version.ref = "objectbox" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 # Convention plugins (defined in build-logic)
 pokedexlab-android-application = { id = "pokedexlab.android.application" }

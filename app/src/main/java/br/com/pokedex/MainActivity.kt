@@ -38,6 +38,7 @@ class MainActivity : ComponentActivity() {
                                 PokemonDetailScreen(
                                     pokemonId = key.pokemonId,
                                     onBack = { backStack.removeLastOrNull() },
+                                    onNavigateToNext = { nextId -> backStack.add(PokemonDetailRoute(nextId)) },
                                 )
                             }
                             else -> error("Unknown route: $key")

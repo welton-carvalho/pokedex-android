@@ -5,6 +5,7 @@ import br.com.pokedex.core.common.result.Result
 import br.com.pokedex.data.network.api.PokemonApiService
 import br.com.pokedex.data.network.dto.PokemonDetailDto
 import br.com.pokedex.data.network.dto.PokemonListResponseDto
+import br.com.pokedex.data.network.dto.PokemonSpeciesDto
 
 class RemotePokemonDataSource(private val api: PokemonApiService) {
 
@@ -13,6 +14,12 @@ class RemotePokemonDataSource(private val api: PokemonApiService) {
 
     suspend fun getPokemonDetail(id: Int): Result<PokemonDetailDto> = try {
         Result.Success(api.getPokemonDetail(id))
+    } catch (e: Exception) {
+        Result.Error(ErrorHandler.handle(e))
+    }
+
+    suspend fun getPokemonSpecies(id: Int): Result<PokemonSpeciesDto> = try {
+        Result.Success(api.getPokemonSpecies(id))
     } catch (e: Exception) {
         Result.Error(ErrorHandler.handle(e))
     }

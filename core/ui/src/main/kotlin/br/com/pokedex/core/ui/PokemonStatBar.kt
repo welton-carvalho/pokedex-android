@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import br.com.pokedex.core.designsystem.theme.Body3Regular
+import br.com.pokedex.core.designsystem.theme.Gray1
 import br.com.pokedex.core.designsystem.theme.Gray3
 import br.com.pokedex.core.designsystem.theme.Subtitle3Bold
 
@@ -38,7 +40,20 @@ fun PokemonStatBar(
             text = label,
             style = Subtitle3Bold,
             color = color,
-            modifier = Modifier.width(40.dp),
+            modifier = Modifier.width(36.dp),
+        )
+        Box(
+            modifier = Modifier
+                .width(1.dp)
+                .height(12.dp)
+                .background(color.copy(alpha = 0.3f)),
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(
+            text = value.toString().padStart(3, '0'),
+            style = Body3Regular,
+            color = Gray1,
+            modifier = Modifier.width(28.dp),
         )
         Spacer(modifier = Modifier.width(8.dp))
         Box(
