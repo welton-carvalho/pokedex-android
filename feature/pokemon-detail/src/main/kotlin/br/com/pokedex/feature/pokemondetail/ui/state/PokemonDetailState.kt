@@ -1,8 +1,10 @@
 package br.com.pokedex.feature.pokemondetail.ui.state
 
+import androidx.compose.runtime.Stable
 import br.com.pokedex.core.common.result.DomainError
 import br.com.pokedex.feature.pokemondetail.ui.model.PokemonDetailUiModel
 
+@Stable
 data class PokemonDetailState(
     val isLoading: Boolean = true,
     val pokemon: PokemonDetailUiModel? = null,

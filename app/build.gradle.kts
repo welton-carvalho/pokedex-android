@@ -33,6 +33,7 @@ dependencies {
     implementation(libs.bundles.navigation3)
     implementation(libs.bundles.koin.compose)
     implementation(libs.timber)
+    implementation(libs.bundles.coil)
 
     implementation(project(":core:common"))
     implementation(project(":core:design-system"))

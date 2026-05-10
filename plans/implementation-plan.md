@@ -25,9 +25,9 @@ As Fases 1 e 2 estão completas — a próxima sessão começa na Fase 3.
 | 4 — App Shell | ✅ Concluída | Application, Splash, Navigation3 host (NavDisplay) |
 | 5 — feature:pokemon-list | ✅ Concluída | MVI completo + Paging3 + LazyVerticalGrid |
 | 6 — feature:pokemon-detail | ✅ Concluída | MVI + artwork + stats + type colors |
-| 7 — core:testing | ⬜ Pendente | fakes, helpers |
-| 8 — Testes | ⬜ Pendente | unit, integration, UI |
-| 9 — Polish | ⬜ Pendente | @Immutable, Coil cache, proguard |
+| 7 — core:testing | ✅ Concluída | FakePokemonRepository, FakePokemonData, TestDispatcherProvider, MainDispatcherRule |
+| 8 — Testes | ✅ Concluída | 20 testes (ErrorHandler, UseCases, RepositoryImpl, Reducer) |
+| 9 — Polish | ✅ Concluída | @Immutable, Coil cache, proguard |
 
 ---
 
