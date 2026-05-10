@@ -1,0 +1,1 @@
+br.com.pokedex.core.observability

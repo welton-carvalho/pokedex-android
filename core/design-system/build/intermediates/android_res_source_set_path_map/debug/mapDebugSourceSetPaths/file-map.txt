@@ -1,0 +1,8 @@
+br.com.pokedex.core.designsystem.design-system-pngs-0 C:\projetos\android\PokedexLab\core\design-system\build\generated\res\pngs\debug
+br.com.pokedex.core.designsystem.design-system-updated_navigation_xml-1 C:\projetos\android\PokedexLab\core\design-system\build\generated\updated_navigation_xml\debug
+br.com.pokedex.core.designsystem.design-system-mergeDebugResources-2 C:\projetos\android\PokedexLab\core\design-system\build\intermediates\incremental\debug\mergeDebugResources\merged.dir
+br.com.pokedex.core.designsystem.design-system-mergeDebugResources-3 C:\projetos\android\PokedexLab\core\design-system\build\intermediates\incremental\debug\mergeDebugResources\stripped.dir
+br.com.pokedex.core.designsystem.design-system-debug-4 C:\projetos\android\PokedexLab\core\design-system\build\intermediates\merged_res\debug\mergeDebugResources
+br.com.pokedex.core.designsystem.design-system-debug-5 C:\projetos\android\PokedexLab\core\design-system\build\intermediates\packaged_res\debug\packageDebugResources
+br.com.pokedex.core.designsystem.design-system-debug-6 C:\projetos\android\PokedexLab\core\design-system\src\debug\res
+br.com.pokedex.core.designsystem.design-system-main-7 C:\projetos\android\PokedexLab\core\design-system\src\main\res

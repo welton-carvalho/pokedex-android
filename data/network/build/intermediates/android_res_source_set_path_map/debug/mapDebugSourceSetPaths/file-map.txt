@@ -1,0 +1,8 @@
+br.com.pokedex.data.network-pngs-0 C:\projetos\android\PokedexLab\data\network\build\generated\res\pngs\debug
+br.com.pokedex.data.network-updated_navigation_xml-1 C:\projetos\android\PokedexLab\data\network\build\generated\updated_navigation_xml\debug
+br.com.pokedex.data.network-mergeDebugResources-2 C:\projetos\android\PokedexLab\data\network\build\intermediates\incremental\debug\mergeDebugResources\merged.dir
+br.com.pokedex.data.network-mergeDebugResources-3 C:\projetos\android\PokedexLab\data\network\build\intermediates\incremental\debug\mergeDebugResources\stripped.dir
+br.com.pokedex.data.network-debug-4 C:\projetos\android\PokedexLab\data\network\build\intermediates\merged_res\debug\mergeDebugResources
+br.com.pokedex.data.network-debug-5 C:\projetos\android\PokedexLab\data\network\build\intermediates\packaged_res\debug\packageDebugResources
+br.com.pokedex.data.network-debug-6 C:\projetos\android\PokedexLab\data\network\src\debug\res
+br.com.pokedex.data.network-main-7 C:\projetos\android\PokedexLab\data\network\src\main\res

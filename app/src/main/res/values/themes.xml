@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="Theme.PokedexLab" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#DC0A2D</item>
+        <item name="postSplashScreenTheme">@style/Theme.PokedexLab.Main</item>
+    </style>
 
-    <style name="Theme.PokedexLab" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.PokedexLab.Main" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>

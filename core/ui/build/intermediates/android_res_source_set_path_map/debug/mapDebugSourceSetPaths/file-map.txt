@@ -1,0 +1,8 @@
+br.com.pokedex.core.ui-pngs-0 C:\projetos\android\PokedexLab\core\ui\build\generated\res\pngs\debug
+br.com.pokedex.core.ui-updated_navigation_xml-1 C:\projetos\android\PokedexLab\core\ui\build\generated\updated_navigation_xml\debug
+br.com.pokedex.core.ui-mergeDebugResources-2 C:\projetos\android\PokedexLab\core\ui\build\intermediates\incremental\debug\mergeDebugResources\merged.dir
+br.com.pokedex.core.ui-mergeDebugResources-3 C:\projetos\android\PokedexLab\core\ui\build\intermediates\incremental\debug\mergeDebugResources\stripped.dir
+br.com.pokedex.core.ui-debug-4 C:\projetos\android\PokedexLab\core\ui\build\intermediates\merged_res\debug\mergeDebugResources
+br.com.pokedex.core.ui-debug-5 C:\projetos\android\PokedexLab\core\ui\build\intermediates\packaged_res\debug\packageDebugResources
+br.com.pokedex.core.ui-debug-6 C:\projetos\android\PokedexLab\core\ui\src\debug\res
+br.com.pokedex.core.ui-main-7 C:\projetos\android\PokedexLab\core\ui\src\main\res
