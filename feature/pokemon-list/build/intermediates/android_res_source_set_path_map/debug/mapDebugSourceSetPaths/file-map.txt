@@ -1,8 +1,0 @@
-br.com.pokedex.feature.pokemonlist.pokemon-list-pngs-0 C:\projetos\android\PokedexLab\feature\pokemon-list\build\generated\res\pngs\debug
-br.com.pokedex.feature.pokemonlist.pokemon-list-updated_navigation_xml-1 C:\projetos\android\PokedexLab\feature\pokemon-list\build\generated\updated_navigation_xml\debug
-br.com.pokedex.feature.pokemonlist.pokemon-list-mergeDebugResources-2 C:\projetos\android\PokedexLab\feature\pokemon-list\build\intermediates\incremental\debug\mergeDebugResources\merged.dir
-br.com.pokedex.feature.pokemonlist.pokemon-list-mergeDebugResources-3 C:\projetos\android\PokedexLab\feature\pokemon-list\build\intermediates\incremental\debug\mergeDebugResources\stripped.dir
-br.com.pokedex.feature.pokemonlist.pokemon-list-debug-4 C:\projetos\android\PokedexLab\feature\pokemon-list\build\intermediates\merged_res\debug\mergeDebugResources
-br.com.pokedex.feature.pokemonlist.pokemon-list-debug-5 C:\projetos\android\PokedexLab\feature\pokemon-list\build\intermediates\packaged_res\debug\packageDebugResources
-br.com.pokedex.feature.pokemonlist.pokemon-list-debug-6 C:\projetos\android\PokedexLab\feature\pokemon-list\src\debug\res
-br.com.pokedex.feature.pokemonlist.pokemon-list-main-7 C:\projetos\android\PokedexLab\feature\pokemon-list\src\main\res

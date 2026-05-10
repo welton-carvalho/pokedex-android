@@ -1,8 +1,0 @@
-br.com.pokedex.feature.pokemondetail.pokemon-detail-pngs-0 C:\projetos\android\PokedexLab\feature\pokemon-detail\build\generated\res\pngs\debug
-br.com.pokedex.feature.pokemondetail.pokemon-detail-updated_navigation_xml-1 C:\projetos\android\PokedexLab\feature\pokemon-detail\build\generated\updated_navigation_xml\debug
-br.com.pokedex.feature.pokemondetail.pokemon-detail-mergeDebugResources-2 C:\projetos\android\PokedexLab\feature\pokemon-detail\build\intermediates\incremental\debug\mergeDebugResources\merged.dir
-br.com.pokedex.feature.pokemondetail.pokemon-detail-mergeDebugResources-3 C:\projetos\android\PokedexLab\feature\pokemon-detail\build\intermediates\incremental\debug\mergeDebugResources\stripped.dir
-br.com.pokedex.feature.pokemondetail.pokemon-detail-debug-4 C:\projetos\android\PokedexLab\feature\pokemon-detail\build\intermediates\merged_res\debug\mergeDebugResources
-br.com.pokedex.feature.pokemondetail.pokemon-detail-debug-5 C:\projetos\android\PokedexLab\feature\pokemon-detail\build\intermediates\packaged_res\debug\packageDebugResources
-br.com.pokedex.feature.pokemondetail.pokemon-detail-debug-6 C:\projetos\android\PokedexLab\feature\pokemon-detail\src\debug\res
-br.com.pokedex.feature.pokemondetail.pokemon-detail-main-7 C:\projetos\android\PokedexLab\feature\pokemon-detail\src\main\res
