@@ -1,6 +1,7 @@
 *.iml
 .gradle
 /local.properties
+/.idea/**
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
@@ -13,3 +14,12 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Build output in all submodules
+**/build/
+
+# Kotlin incremental compilation cache
+.kotlin/
+
+# ObjectBox generated model
+**/objectbox-models/

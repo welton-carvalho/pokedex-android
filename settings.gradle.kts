@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -19,9 +20,29 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
 rootProject.name = "Pokedex Lab"
+
 include(":app")
- 
+
+// Core modules
+include(":core:common")
+include(":core:design-system")
+include(":core:domain")
+include(":core:model")
+include(":core:navigation")
+include(":core:observability")
+include(":core:testing")
+include(":core:ui")
+
+// Data modules
+include(":data:network")
+include(":data:local")
+include(":data:repository")
+
+// Feature modules
+include(":feature:pokemon-list")
+include(":feature:pokemon-detail")
