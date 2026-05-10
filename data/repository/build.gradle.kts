@@ -14,4 +14,12 @@ dependencies {
     implementation(project(":data:local"))
     implementation(libs.androidx.paging.runtime)
     implementation(libs.koin.android)
+
+    testImplementation(project(":core:testing"))
+    testImplementation(libs.bundles.junit5)
+    testImplementation(libs.mockk.android)
+    testImplementation(libs.mockk.agent)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testRuntimeOnly(libs.junit5.engine)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }

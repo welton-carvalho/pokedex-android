@@ -21,6 +21,9 @@ internal fun LibraryExtension.configureKotlinAndroid() {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    testOptions {
+        unitTests.all { it.useJUnitPlatform() }
+    }
 }
 
 internal fun Project.configureKotlinCompiler() {

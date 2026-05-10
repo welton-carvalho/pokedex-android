@@ -19,5 +19,6 @@ dependencies {
     implementation(libs.mockk.android)
     implementation(libs.mockk.agent)
     implementation(libs.koin.test)
+    implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.testing)
 }

@@ -25,4 +25,12 @@ dependencies {
     implementation(project(":data:repository"))
 
     debugImplementation(libs.bundles.compose.debug)
+
+    testImplementation(project(":core:testing"))
+    testImplementation(libs.bundles.junit5)
+    testImplementation(libs.mockk.android)
+    testImplementation(libs.mockk.agent)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testRuntimeOnly(libs.junit5.engine)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
