@@ -1,6 +1,7 @@
 package br.com.pokedex
 
 import android.app.Application
+import io.objectbox.android.Admin
 import br.com.pokedex.core.common.di.commonModule
 import br.com.pokedex.core.observability.AppLogger
 import br.com.pokedex.data.local.di.localModule
@@ -29,6 +30,7 @@ class PokedexLabApplication : Application() {
         super.onCreate()
         AppLogger.init(BuildConfig.DEBUG)
         boxStore = MyObjectBox.builder().androidContext(this).build()
+        if (BuildConfig.DEBUG) Admin(boxStore).start(this)
         initCoil()
         startKoin {
             androidContext(this@PokedexLabApplication)

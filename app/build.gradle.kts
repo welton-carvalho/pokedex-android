@@ -23,6 +23,13 @@ android {
     }
 }
 
+// objectbox-android-objectbrowser includes objectbox-android — exclude to avoid duplicate classes in debug
+configurations.configureEach {
+    if (name == "debugRuntimeClasspath") {
+        exclude(group = "io.objectbox", module = "objectbox-android")
+    }
+}
+
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.core.ktx)
@@ -41,7 +48,8 @@ dependencies {
     implementation(project(":core:observability"))
     implementation(project(":data:network"))
     implementation(project(":data:local"))
-    implementation(libs.objectbox.android)
+    releaseImplementation(libs.objectbox.android)
+    debugImplementation(libs.objectbox.android.objectbrowser)
     implementation(project(":data:repository"))
     implementation(project(":feature:pokemon-list"))
     implementation(project(":feature:pokemon-detail"))
