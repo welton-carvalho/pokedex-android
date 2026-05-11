@@ -165,6 +165,7 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 objectbox = { id = "io.objectbox", version.ref = "objectbox" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-kapt = { id = "com.android.legacy-kapt", version.ref = "agp" }
 
 # Convention plugins (defined in build-logic)
 pokedexlab-android-application = { id = "pokedexlab.android.application" }

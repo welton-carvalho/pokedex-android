@@ -41,6 +41,7 @@ dependencies {
     implementation(project(":core:observability"))
     implementation(project(":data:network"))
     implementation(project(":data:local"))
+    implementation(libs.objectbox.android)
     implementation(project(":data:repository"))
     implementation(project(":feature:pokemon-list"))
     implementation(project(":feature:pokemon-detail"))
