@@ -18,3 +18,4 @@ local.properties
 
 # ObjectBox generated model
 **/objectbox-models/
+/.claude/settings.local.json

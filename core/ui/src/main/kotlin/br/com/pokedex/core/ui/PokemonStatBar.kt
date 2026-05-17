@@ -16,10 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import br.com.pokedex.core.designsystem.theme.Body3Regular
+import br.com.pokedex.core.designsystem.theme.Body2Regular
 import br.com.pokedex.core.designsystem.theme.Gray1
 import br.com.pokedex.core.designsystem.theme.Gray3
-import br.com.pokedex.core.designsystem.theme.Subtitle3Bold
+import br.com.pokedex.core.designsystem.theme.Subtitle2Bold
 
 private const val MAX_STAT = 255
 
@@ -38,9 +38,9 @@ fun PokemonStatBar(
     ) {
         Text(
             text = label,
-            style = Subtitle3Bold,
+            style = Subtitle2Bold,
             color = color,
-            modifier = Modifier.width(36.dp),
+            modifier = Modifier.width(40.dp),
         )
         Box(
             modifier = Modifier
@@ -51,9 +51,9 @@ fun PokemonStatBar(
         Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = value.toString().padStart(3, '0'),
-            style = Body3Regular,
+            style = Body2Regular,
             color = Gray1,
-            modifier = Modifier.width(28.dp),
+            modifier = Modifier.width(32.dp),
         )
         Spacer(modifier = Modifier.width(8.dp))
         Box(

@@ -19,11 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import br.com.pokedex.core.designsystem.theme.Body3Regular
 import br.com.pokedex.core.designsystem.theme.CaptionRegular
 import br.com.pokedex.core.designsystem.theme.Gray1
 import br.com.pokedex.core.designsystem.theme.Gray2
 import br.com.pokedex.core.designsystem.theme.GrayBackground
-import br.com.pokedex.core.designsystem.theme.Subtitle3Bold
 import br.com.pokedex.core.designsystem.theme.White
 import br.com.pokedex.feature.pokemonlist.ui.model.PokemonListUiModel
 import coil3.compose.AsyncImage
@@ -53,11 +53,11 @@ fun PokemonCard(
                         color = GrayBackground,
                         shape = RoundedCornerShape(7.dp),
                     )
-                    .padding(vertical = 6.dp, horizontal = 4.dp),
+                    .padding(top = 24.dp, bottom = 4.dp, start = 8.dp, end = 8.dp),
             ) {
                 Text(
                     text = pokemon.displayName,
-                    style = Subtitle3Bold,
+                    style = Body3Regular,
                     color = Gray1,
                     textAlign = TextAlign.Center,
                     maxLines = 1,
@@ -72,17 +72,17 @@ fun PokemonCard(
                 color = Gray2,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .padding(top = 6.dp, end = 6.dp),
+                    .padding(top = 4.dp, end = 8.dp),
             )
 
-            // Pokemon artwork — centered in the upper area
+            // Pokemon artwork — top left
             AsyncImage(
                 model = pokemon.imageUrl,
                 contentDescription = pokemon.displayName,
                 modifier = Modifier
                     .size(72.dp)
-                    .align(Alignment.Center)
-                    .offset(y = (-8).dp),
+                    .align(Alignment.TopStart)
+                    .offset(x = 16.dp, y = 16.dp),
             )
         }
     }

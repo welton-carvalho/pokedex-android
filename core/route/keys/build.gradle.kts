@@ -4,9 +4,10 @@ plugins {
 }
 
 android {
-    namespace = "br.com.pokedex.core.navigation"
+    namespace = "br.com.pokedex.core.route.keys"
 }
 
 dependencies {
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.navigation3.runtime)
 }

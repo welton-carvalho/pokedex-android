@@ -15,11 +15,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.compose.material.icons)
 
+    implementation(project(":core:route:keys"))
     implementation(project(":core:common"))
     implementation(project(":core:design-system"))
     implementation(project(":core:domain"))
     implementation(project(":core:model"))
-    implementation(project(":core:navigation"))
     implementation(project(":core:ui"))
     implementation(project(":data:repository"))
 

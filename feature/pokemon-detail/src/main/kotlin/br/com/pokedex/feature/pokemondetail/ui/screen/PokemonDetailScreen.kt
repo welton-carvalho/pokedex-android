@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -43,12 +42,10 @@ import br.com.pokedex.core.designsystem.component.ErrorContent
 import br.com.pokedex.core.designsystem.component.LoadingIndicator
 import br.com.pokedex.core.designsystem.component.PokemonTypeChip
 import br.com.pokedex.core.designsystem.theme.Body2Regular
-import br.com.pokedex.core.designsystem.theme.Body3Regular
 import br.com.pokedex.core.designsystem.theme.Gray2
 import br.com.pokedex.core.designsystem.theme.HeadlineBold
 import br.com.pokedex.core.designsystem.theme.Subtitle1Bold
 import br.com.pokedex.core.designsystem.theme.Subtitle2Bold
-import br.com.pokedex.core.designsystem.theme.Subtitle3Bold
 import br.com.pokedex.core.designsystem.theme.White
 import br.com.pokedex.core.ui.PokemonStatBar
 import br.com.pokedex.feature.pokemondetail.ui.event.PokemonDetailEvent
@@ -114,12 +111,13 @@ private fun PokemonDetailContent(
             .fillMaxSize()
             .background(typeColor),
     ) {
+        // Pokeball watermark — top-right, partially off screen (matches Figma: center x=248, y=112)
         PokeballWatermark(
             color = White,
             modifier = Modifier
                 .size(220.dp)
                 .align(Alignment.TopEnd)
-                .offset(x = 40.dp, y = (-10).dp),
+                .offset(y = 18.dp),
         )
 
         Column(modifier = Modifier.fillMaxSize()) {
@@ -147,27 +145,21 @@ private fun PokemonDetailContent(
                     text = "#${pokemon.id.toString().padStart(3, '0')}",
                     style = Subtitle2Bold,
                     color = White.copy(alpha = 0.75f),
+                    modifier = Modifier.padding(end = 16.dp),
                 )
-                IconButton(onClick = onNavigateToNext) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                        contentDescription = "Next Pokémon",
-                        tint = White,
-                    )
-                }
             }
 
             Box(modifier = Modifier.fillMaxSize()) {
-                // White content card
+                // White content card — starts at 160dp (Figma: white card y=224, header y=64)
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = 84.dp)
+                        .padding(top = 160.dp)
                         .background(
                             color = White,
-                            shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
+                            shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
                         )
-                        .padding(top = 60.dp)
+                        .padding(top = 56.dp)
                         .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
@@ -191,8 +183,8 @@ private fun PokemonDetailContent(
                         Text(
                             text = pokemon.description,
                             style = Body2Regular,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.padding(horizontal = 20.dp),
+                            textAlign = TextAlign.Start,
+                            modifier = Modifier.padding(horizontal = 24.dp),
                         )
                     }
 
@@ -205,7 +197,7 @@ private fun PokemonDetailContent(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 20.dp),
+                            .padding(horizontal = 24.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         pokemon.stats.forEach { stat ->
@@ -221,15 +213,41 @@ private fun PokemonDetailContent(
                     Spacer(modifier = Modifier.height(32.dp))
                 }
 
-                // Pokemon artwork overlapping card top
+                // Pokemon artwork — top at 16dp from inner box (Figma: image y=80, header=64)
                 AsyncImage(
                     model = pokemon.imageUrl,
                     contentDescription = pokemon.name,
                     modifier = Modifier
                         .size(200.dp)
                         .align(Alignment.TopCenter)
-                        .offset(y = (-20).dp),
+                        .offset(y = 16.dp),
                 )
+
+                // Navigation chevrons — centered at 132dp (Figma: chevron y=196, header=64)
+                IconButton(
+                    onClick = onBack,
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .offset(y = 108.dp),
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Previous Pokémon",
+                        tint = White,
+                    )
+                }
+                IconButton(
+                    onClick = onNavigateToNext,
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .offset(y = 108.dp),
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = "Next Pokémon",
+                        tint = White,
+                    )
+                }
             }
         }
     }
@@ -243,7 +261,7 @@ private fun AboutSection(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp),
+            .padding(horizontal = 24.dp),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -278,14 +296,14 @@ private fun AboutSection(
             pokemon.abilities.forEach { ability ->
                 Text(
                     text = ability,
-                    style = Subtitle3Bold,
+                    style = Subtitle2Bold,
                     textAlign = TextAlign.Center,
                 )
             }
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = "Moves",
-                style = Body3Regular,
+                style = Body2Regular,
                 color = Gray2,
             )
         }
@@ -315,13 +333,13 @@ private fun AboutItem(
             )
             Text(
                 text = value,
-                style = Subtitle3Bold,
+                style = Subtitle2Bold,
             )
         }
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = label,
-            style = Body3Regular,
+            style = Body2Regular,
             color = Gray2,
         )
     }

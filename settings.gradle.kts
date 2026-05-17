@@ -33,10 +33,14 @@ include(":core:common")
 include(":core:design-system")
 include(":core:domain")
 include(":core:model")
-include(":core:navigation")
 include(":core:observability")
 include(":core:testing")
 include(":core:ui")
+
+// Route modules
+include(":core:route:keys")
+include(":core:route:deeplink")
+include(":core:route:navigation")
 
 // Data modules
 include(":data:network")
