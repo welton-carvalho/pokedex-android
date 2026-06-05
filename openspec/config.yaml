@@ -1,0 +1,9 @@
+defaultSchema: spec-driven-with-adr
+context: |
+  Projeto: PokedexLab (Android). Kotlin 2.2, Jetpack Compose + Material3,
+  Clean Architecture + MVI, Koin 4.2, Retrofit, ObjectBox, Paging3, Navigation3.
+  Regra absoluta: features NAO se conhecem (feature:pokemon-list nunca importa
+  feature:pokemon-detail). Comunicacao apenas via core:route:keys (NavKeys
+  serializaveis). Estados MVI obrigatorios: loading, success, error, empty.
+  Nomenclatura em ingles, package br.com.pokedex.<modulo>.<camada>.
+  Stats reutilizam o componente core:ui PokemonStatBar.

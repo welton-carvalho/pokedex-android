@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class PokemonListViewModel(
@@ -37,14 +36,43 @@ class PokemonListViewModel(
             .cachedIn(viewModelScope)
 
     fun onIntent(intent: PokemonListIntent) {
-        _state.update { PokemonListReducer.reduce(it, intent) }
+        val previous = _state.value
+        val next = PokemonListReducer.reduce(previous, intent)
+        _state.value = next
         when (intent) {
             is PokemonListIntent.ClickPokemon -> {
-                viewModelScope.launch {
-                    _events.send(PokemonListEvent.NavigateToDetail(intent.id))
+                if (!previous.isCompareMode) {
+                    viewModelScope.launch {
+                        _events.send(PokemonListEvent.NavigateToDetail(intent.id))
+                    }
                 }
             }
-            is PokemonListIntent.Retry -> Unit
+            is PokemonListIntent.ToggleSelectForCompare -> handleCompareSelection(previous, next, intent.id)
+            is PokemonListIntent.Retry,
+            is PokemonListIntent.ToggleCompareMode,
+            is PokemonListIntent.ResetCompareMode -> Unit
+        }
+    }
+
+    private fun handleCompareSelection(
+        previous: PokemonListState,
+        next: PokemonListState,
+        id: Int,
+    ) {
+        if (!previous.isCompareMode) return
+        val stateChanged = previous.selectedForCompare != next.selectedForCompare
+        when {
+            stateChanged && next.selectedForCompare.size == 2 -> {
+                val ids = next.selectedForCompare.toList()
+                viewModelScope.launch {
+                    _events.send(PokemonListEvent.NavigateToCompare(ids[0], ids[1]))
+                }
+            }
+            !stateChanged && previous.selectedForCompare.size == 2 && id !in previous.selectedForCompare -> {
+                viewModelScope.launch {
+                    _events.send(PokemonListEvent.ShowSelectionLimitReached)
+                }
+            }
         }
     }
 }

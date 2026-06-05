@@ -8,6 +8,7 @@ import br.com.pokedex.data.local.di.localModule
 import br.com.pokedex.data.local.entity.MyObjectBox
 import br.com.pokedex.data.network.di.networkModule
 import br.com.pokedex.data.repository.di.repositoryModule
+import br.com.pokedex.feature.pokemoncompare.di.compareModule
 import br.com.pokedex.feature.pokemondetail.di.pokemonDetailModule
 import br.com.pokedex.feature.pokemonlist.di.pokemonListModule
 import coil3.ImageLoader
@@ -43,6 +44,7 @@ class PokedexLabApplication : Application() {
                 repositoryModule,
                 pokemonListModule,
                 pokemonDetailModule,
+                compareModule,
             )
         }
     }

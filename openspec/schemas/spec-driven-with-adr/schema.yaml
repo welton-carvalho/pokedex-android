@@ -1,0 +1,49 @@
+name: spec-driven-with-adr
+version: 1
+description: >
+  Workflow avancado com governanca de design e Registro de Decisao
+  Arquitetural (ADR) persistente. Alvo: Android, Kotlin, Jetpack Compose,
+  Clean Architecture + MVI, Koin, Navigation3.
+artifacts:
+  - id: proposal
+    generates: proposal.md
+    description: Justificativa de negocio, escopo (in/out) e impacto.
+    template: proposal.md
+    requires: []
+
+  - id: specs
+    generates: specs/**/*.md
+    description: Delta specs (ADDED/MODIFIED/REMOVED) em sintaxe EARS + cenarios.
+    template: specs/spec.md
+    requires:
+      - proposal
+
+  - id: design
+    generates: design.md
+    description: Abordagem tecnica - modulos Gradle, MVI, navegacao, Koin, DTOs.
+    template: design.md
+    requires:
+      - specs
+
+  - id: adr
+    # ADR vive FORA da pasta efemera da change -> historico vitalicio do repo
+    generates: ../../adrs/*.md
+    description: Registro de Decisao Arquitetural com trade-offs avaliados.
+    template: adr.md
+    requires:
+      - design
+
+  - id: tasks
+    generates: tasks.md
+    description: Plano granular de implementacao (cada item <= 2h).
+    template: tasks.md
+    requires:
+      - adr
+
+# apply e campo no TOPO do schema (NAO dentro de tasks:).
+# Define quais artefatos precisam estar prontos para liberar /opsx:apply
+# e qual arquivo rastrear o progresso (checkboxes).
+apply:
+  requires:
+    - tasks
+  tracks: tasks.md

@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -33,10 +34,12 @@ fun PokemonCard(
     pokemon: PokemonListUiModel,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    isDimmed: Boolean = false,
 ) {
     Card(
         modifier = modifier
             .height(108.dp)
+            .alpha(if (isDimmed) 0.4f else 1f)
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(containerColor = White),

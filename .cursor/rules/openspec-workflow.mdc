@@ -1,0 +1,41 @@
+---
+description: Enforcer de governanca OpenSpec — carregue antes de qualquer operacao /opsx.
+alwaysApply: true
+---
+
+# OpenSpec Workflow (obrigatorio)
+
+**Nenhuma mudanca de codigo de feature sem uma proposal antes.**
+
+## Processo
+1. Explore — quando o usuario disser "pensar/discutir/explorar": SO discutir,
+   nada de codigo. Ao final, gravar openspec/changes/<change>/explore-brief.md.
+2. Propose — gerar artefatos em openspec/changes/<change>/ NA ORDEM DO DAG.
+3. Apply — implementar conforme tasks.md. Sem edicao de codigo sem proposal.
+4. Verify — rodar /opsx:verify apos implementar.
+5. Archive — so depois do merge na main.
+
+## Regras duras
+- Bug fix trivial e isento deste fluxo. Feature/nova capability NAO e.
+- Sem proposal, sem edicao: antes de editar arquivo, confirmar que existe
+  pasta correspondente em openspec/changes/.
+- Em Explore mode: NAO criar proposal, NAO editar arquivos, NAO escrever testes.
+- Nao modificar arquivos fora do escopo da change atual.
+
+## Reflection Process (gate de qualidade)
+1. Apos criar CADA artefato (um por vez, na ordem proposal → specs → design →
+   adr → tasks), chamar @openspec-reviewer para revisar SO aquele artefato.
+2. O executor corrige o artefato com base no feedback.
+3. Chamar @openspec-reviewer de novo no mesmo artefato.
+4. Criterio de aprovacao:
+   4a. Pass: se "### 🔴 Remaining Issues" nao existir ou estiver vazia → FREEZE
+       o artefato (proibido alterar) e siga para o proximo.
+   4b. Fail: se houver 🔴 → executor corrige → novo round → volta a 4a.
+   4c. MAX_ROUNDS = 5: se o mesmo artefato falhar 5 rounds → parar e escalar
+       para decisao humana.
+5. Registrar TODO round em openspec/changes/<change>/review-log.md (append-only).
+
+## Violacoes — parar e avisar o usuario se:
+- Codigo comecar a ser modificado sem proposal.
+- Arquivos editados em Explore mode.
+- Arquivos fora do escopo da change forem tocados.

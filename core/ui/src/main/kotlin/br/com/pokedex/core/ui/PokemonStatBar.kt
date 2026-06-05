@@ -29,8 +29,9 @@ fun PokemonStatBar(
     value: Int,
     color: Color,
     modifier: Modifier = Modifier,
+    maxValue: Int = MAX_STAT,
 ) {
-    val fraction = remember(value) { (value / MAX_STAT.toFloat()).coerceIn(0f, 1f) }
+    val fraction = remember(value, maxValue) { (value / maxValue.toFloat()).coerceIn(0f, 1f) }
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
