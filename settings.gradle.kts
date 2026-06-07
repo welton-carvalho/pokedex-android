@@ -50,3 +50,4 @@ include(":data:repository")
 // Feature modules
 include(":feature:pokemon-list")
 include(":feature:pokemon-detail")
+include(":feature:pokemon-compare")

@@ -1,6 +1,7 @@
 package br.com.pokedex.feature.pokemonlist.ui.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,8 +11,11 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,6 +28,7 @@ import br.com.pokedex.core.designsystem.theme.CaptionRegular
 import br.com.pokedex.core.designsystem.theme.Gray1
 import br.com.pokedex.core.designsystem.theme.Gray2
 import br.com.pokedex.core.designsystem.theme.GrayBackground
+import br.com.pokedex.core.designsystem.theme.PokedexRed
 import br.com.pokedex.core.designsystem.theme.White
 import br.com.pokedex.feature.pokemonlist.ui.model.PokemonListUiModel
 import coil3.compose.AsyncImage
@@ -33,16 +38,34 @@ fun PokemonCard(
     pokemon: PokemonListUiModel,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    isSelected: Boolean = false,
 ) {
+    val borderModifier = if (isSelected) {
+        Modifier.border(2.dp, PokedexRed, RoundedCornerShape(8.dp))
+    } else {
+        Modifier
+    }
     Card(
         modifier = modifier
             .height(108.dp)
+            .then(borderModifier)
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(containerColor = White),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
+            if (isSelected) {
+                Icon(
+                    imageVector = Icons.Default.CheckCircle,
+                    contentDescription = "Selected",
+                    tint = PokedexRed,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .align(Alignment.TopStart)
+                        .offset(x = 4.dp, y = 4.dp),
+                )
+            }
             // Name tag anchored to bottom
             Box(
                 contentAlignment = Alignment.Center,

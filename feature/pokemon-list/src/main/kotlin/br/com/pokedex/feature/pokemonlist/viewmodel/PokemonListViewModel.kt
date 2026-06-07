@@ -44,7 +44,17 @@ class PokemonListViewModel(
                     _events.send(PokemonListEvent.NavigateToDetail(intent.id))
                 }
             }
-            is PokemonListIntent.Retry -> Unit
+            is PokemonListIntent.ToggleSelection -> {
+                val updated = _state.value.selectedIds
+                if (updated.size == 2) {
+                    viewModelScope.launch {
+                        _events.send(PokemonListEvent.NavigateToCompare(updated[0], updated[1]))
+                    }
+                    _state.update { it.copy(isCompareMode = false, selectedIds = emptyList()) }
+                }
+            }
+            is PokemonListIntent.Retry,
+            is PokemonListIntent.ToggleCompareMode -> Unit
         }
     }
 }

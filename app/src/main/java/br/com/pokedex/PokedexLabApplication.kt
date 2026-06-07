@@ -3,11 +3,13 @@ package br.com.pokedex
 import android.app.Application
 import io.objectbox.android.Admin
 import br.com.pokedex.core.common.di.commonModule
+import br.com.pokedex.core.domain.di.domainModule
 import br.com.pokedex.core.observability.AppLogger
 import br.com.pokedex.data.local.di.localModule
 import br.com.pokedex.data.local.entity.MyObjectBox
 import br.com.pokedex.data.network.di.networkModule
 import br.com.pokedex.data.repository.di.repositoryModule
+import br.com.pokedex.feature.pokemoncompare.di.pokemonCompareModule
 import br.com.pokedex.feature.pokemondetail.di.pokemonDetailModule
 import br.com.pokedex.feature.pokemonlist.di.pokemonListModule
 import coil3.ImageLoader
@@ -38,11 +40,13 @@ class PokedexLabApplication : Application() {
                 // Provide the BoxStore instance so localModule can resolve it
                 module { single { boxStore } },
                 commonModule,
+                domainModule,
                 networkModule,
                 localModule,
                 repositoryModule,
                 pokemonListModule,
                 pokemonDetailModule,
+                pokemonCompareModule,
             )
         }
     }

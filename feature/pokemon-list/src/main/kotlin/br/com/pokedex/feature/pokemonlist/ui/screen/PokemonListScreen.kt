@@ -21,19 +21,21 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.pokedex.core.designsystem.component.ErrorContent
+import br.com.pokedex.core.designsystem.theme.Body2Regular
 import br.com.pokedex.core.designsystem.theme.HeadlineBold
 import br.com.pokedex.core.designsystem.theme.PokedexRed
+import br.com.pokedex.core.designsystem.theme.Subtitle2Bold
 import br.com.pokedex.core.designsystem.theme.White
 import br.com.pokedex.feature.pokemonlist.ui.component.PokemonCard
 import br.com.pokedex.feature.pokemonlist.ui.component.PokemonLoadingCard
@@ -45,14 +47,17 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun PokemonListScreen(
     onNavigateToDetail: (Int) -> Unit,
+    onNavigateToCompare: (Int, Int) -> Unit = { _, _ -> },
     viewModel: PokemonListViewModel = koinViewModel(),
 ) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
     val pagingItems = viewModel.pokemonPagingFlow.collectAsLazyPagingItems()
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
                 is PokemonListEvent.NavigateToDetail -> onNavigateToDetail(event.id)
+                is PokemonListEvent.NavigateToCompare -> onNavigateToCompare(event.firstId, event.secondId)
             }
         }
     }
@@ -62,7 +67,12 @@ fun PokemonListScreen(
             .fillMaxSize()
             .background(PokedexRed),
     ) {
-        PokemonListHeader(modifier = Modifier.statusBarsPadding())
+        PokemonListHeader(
+            isCompareMode = state.isCompareMode,
+            selectedCount = state.selectedIds.size,
+            onToggleCompareMode = { viewModel.onIntent(PokemonListIntent.ToggleCompareMode) },
+            modifier = Modifier.statusBarsPadding(),
+        )
 
         Box(
             modifier = Modifier
@@ -105,7 +115,14 @@ fun PokemonListScreen(
                                 if (pokemon != null) {
                                     PokemonCard(
                                         pokemon = pokemon,
-                                        onClick = { viewModel.onIntent(PokemonListIntent.ClickPokemon(pokemon.id)) },
+                                        isSelected = state.selectedIds.contains(pokemon.id),
+                                        onClick = {
+                                            if (state.isCompareMode) {
+                                                viewModel.onIntent(PokemonListIntent.ToggleSelection(pokemon.id))
+                                            } else {
+                                                viewModel.onIntent(PokemonListIntent.ClickPokemon(pokemon.id))
+                                            }
+                                        },
                                     )
                                 } else {
                                     PokemonLoadingCard()
@@ -123,18 +140,42 @@ fun PokemonListScreen(
 }
 
 @Composable
-private fun PokemonListHeader(modifier: Modifier = Modifier) {
+private fun PokemonListHeader(
+    isCompareMode: Boolean,
+    selectedCount: Int,
+    onToggleCompareMode: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 24.dp),
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
             Text(
                 text = "Pokédex",
                 style = HeadlineBold,
                 color = White,
+                modifier = Modifier.weight(1f),
             )
+            TextButton(onClick = onToggleCompareMode) {
+                if (isCompareMode) {
+                    Text(
+                        text = "Cancel ($selectedCount/2)",
+                        style = Subtitle2Bold,
+                        color = White,
+                    )
+                } else {
+                    Text(
+                        text = "Compare",
+                        style = Subtitle2Bold,
+                        color = White,
+                    )
+                }
+            }
         }
         Spacer(modifier = Modifier.height(16.dp))
         Row(

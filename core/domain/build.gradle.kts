@@ -10,6 +10,7 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:common"))
     implementation(libs.androidx.paging.runtime)
+    implementation(libs.koin.android)
 
     testImplementation(project(":core:testing"))
     testImplementation(libs.bundles.junit5)

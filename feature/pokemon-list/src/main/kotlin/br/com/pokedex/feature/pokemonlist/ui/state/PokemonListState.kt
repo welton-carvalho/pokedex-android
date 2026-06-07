@@ -7,4 +7,6 @@ import br.com.pokedex.core.common.result.DomainError
 data class PokemonListState(
     val isLoading: Boolean = false,
     val error: DomainError? = null,
+    val isCompareMode: Boolean = false,
+    val selectedIds: List<Int> = emptyList(),
 )
