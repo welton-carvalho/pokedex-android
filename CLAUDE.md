@@ -25,10 +25,10 @@ Este arquivo é a fonte de verdade para decisões arquiteturais, padrões e rest
 | Testes unit | JUnit 5 + MockK | 5.11.0 / 1.13.12 |
 | Testes UI | Compose UI Tests | — |
 
-**SDK:**
+**SDK** (configurado em `build-logic/.../AndroidExtensions.kt`):
 - `minSdk = 26`
-- `targetSdk = 36`
 - `compileSdk = 37` ← obrigatório; `material3-adaptive-navigation3:1.3.0-beta01` exige 37
+- `targetSdk` ← **não está configurado** nos convention plugins (alvo pretendido: 36). Definir se necessário.
 
 ---
 
@@ -45,10 +45,13 @@ core/
 ├── design-system           # Tema, cores, tipografia, shapes, componentes base
 ├── domain                  # Interfaces de repositório, use cases
 ├── model                   # Modelos de domínio compartilhados
-├── navigation              # Rotas serializáveis (PokemonListRoute, PokemonDetailRoute)
 ├── observability           # AppLogger (Timber), Chucker
 ├── testing                 # Fakes, TestDispatcherProvider, helpers de teste
-└── ui                      # Componentes visuais compartilhados entre features
+├── ui                      # Componentes visuais compartilhados entre features
+└── route/
+    ├── keys                # NavKeys serializáveis (PokemonListKey, PokemonDetailKey) + AppNavigator
+    ├── deeplink            # DeepLinkRouter (esquema pokedex://)
+    └── navigation          # AppNavDisplay (host NavDisplay) + NavBackStackNavigator; agrega os nav entries das features
 
 data/
 ├── network                 # Retrofit, APIs, DTOs, RemoteDataSource
@@ -65,10 +68,15 @@ feature/
 ## Grafo de Dependências
 
 ```
-app → feature:*, core:navigation, core:observability, core:design-system, data:*
+app → feature:*, core:route:navigation, core:observability, core:design-system,
+      core:common, data:network, data:local, data:repository
 
 feature:* → core:common, core:design-system, core:domain, core:model,
-            core:navigation, core:ui, data:repository
+            core:route:keys, core:ui, data:repository
+
+core:route:navigation → core:route:keys, core:route:deeplink, feature:* (agrega nav entries)
+core:route:deeplink   → core:route:keys
+core:route:keys       → (apenas navigation3-runtime)
 
 data:repository → core:domain, core:model, data:network, data:local, core:common
 data:network    → core:model, core:common, core:observability
@@ -78,7 +86,7 @@ core:ui         → core:design-system, core:common
 core:testing    → core:domain, core:model, core:common
 ```
 
-**Regra absoluta:** features NÃO se conhecem. `feature:pokemon-list` nunca importa nada de `feature:pokemon-detail` e vice-versa. Comunicação somente via `core:navigation`.
+**Regra absoluta:** features NÃO se conhecem. `feature:pokemon-list` nunca importa nada de `feature:pokemon-detail` e vice-versa — dependem apenas de `core:route:keys`. A composição das telas é feita por `core:route:navigation`, o **único** módulo que conhece as features (agrega seus `EntryProviderScope.xxxEntry`).
 
 ---
 
@@ -147,14 +155,28 @@ Estados obrigatórios: `loading`, `success`, `error`, `empty`.
 
 ## Navegação
 
-Usar Navigation3 com rotas type-safe serializáveis definidas em `core:navigation`:
+Navigation3 com rotas type-safe via `NavKey` serializáveis, definidas em `core:route:keys`:
 
 ```kotlin
-@Serializable data object PokemonListRoute
-@Serializable data class PokemonDetailRoute(val pokemonId: Int)
+@Serializable data object PokemonListKey : NavKey
+@Serializable data class PokemonDetailKey(val pokemonId: Int) : NavKey
 ```
 
-Features nunca criam rotas próprias — sempre usam as de `core:navigation`.
+**Arquitetura de navegação (3 módulos):**
+
+- `core:route:keys` — as `NavKey` acima + a interface `AppNavigator` (`navigateTo`/`navigateBack`). É o que as features importam.
+- `core:route:deeplink` — `DeepLinkRouter` mapeia `pokedex://list` e `pokedex://pokemon/{id}` para um back stack sintético.
+- `core:route:navigation` — `AppNavDisplay` (host `NavDisplay` com `rememberNavBackStack` + `entryProvider`) e `NavBackStackNavigator` (impl de `AppNavigator`). Agrega os nav entries das features.
+
+Cada feature expõe seu wiring rota→tela como extensão em seu pacote `navigation/`:
+
+```kotlin
+fun EntryProviderScope<NavKey>.pokemonDetailEntry(navigator: AppNavigator) {
+    entry<PokemonDetailKey> { key -> PokemonDetailScreen(pokemonId = key.pokemonId, ...) }
+}
+```
+
+Features nunca criam `NavKey` próprias nem conhecem outras features — sempre usam as de `core:route:keys`. ⚠️ O esquema `pokedex://` ainda **não tem `intent-filter`** no `AndroidManifest`, então deep links externos não chegam ao app (ver `.specs/codebase/CONCERNS.md`).
 
 ---
 
@@ -244,12 +266,15 @@ enum class CacheStrategy { MEMORY, DISK, NETWORK_FIRST, CACHE_FIRST, NETWORK_ONL
 
 Localização dos módulos Koin:
 ```
-core:common      → commonModule
-data:network     → networkModule
-data:local       → localModule
-data:repository  → repositoryModule
-feature:*        → featureModule (registrado no di/ de cada feature)
+core:common              → commonModule
+data:network             → networkModule
+data:local               → localModule        (resolve Box<T> a partir do BoxStore)
+data:repository          → repositoryModule
+feature:pokemon-list     → pokemonListModule
+feature:pokemon-detail   → pokemonDetailModule
 ```
+
+O `BoxStore` é criado em `PokedexLabApplication.onCreate` (após `MyObjectBox`) e registrado no Koin **antes** de `localModule` resolver. Os módulos `core:route:*` não usam Koin — o `AppNavigator` é criado via `remember { }` em `AppNavDisplay`.
 
 ---
 
@@ -291,9 +316,10 @@ sealed interface DomainError {
 ## Testes
 
 - **Unit:** JUnit 5, MockK, `TestDispatcherProvider` de `core:testing`
-- **Integration:** repositório com datasources reais em memória
+- **Integration:** repositório com `RemotePokemonDataSource` mockado (MockK) + `LocalPokemonDataSource`
 - **UI:** Compose UI Tests
 - Cobrir obrigatoriamente: reducers, use cases, repositório
+- ⚠️ `PokemonRepositoryImplTest` está **quebrado** após a migração para ObjectBox (instancia `LocalPokemonDataSource()` sem os `Box` exigidos). Corrigir antes de confiar em `./gradlew test` (ver `.specs/codebase/CONCERNS.md`).
 
 ---
 

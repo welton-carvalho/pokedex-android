@@ -14,7 +14,9 @@ Multi-module Android lab project using Jetpack Compose + MVI + Clean Architectur
 - `core:design-system` — Figma tokens: PokedexRed #DC0A2D, 18 type colors, Poppins typography
 - `core:domain` — PokemonRepository interface, GetPokemonListUseCase, GetPokemonDetailUseCase
 - `core:model` — Pokemon, PokemonSummary, PokemonType, PokemonStat, PokemonAbility
-- `core:navigation` — PokemonListRoute, PokemonDetailRoute (serializable)
+- `core:route:keys` — Navigation3 `NavKey`s: `PokemonListKey`, `PokemonDetailKey(pokemonId)` (serializable) + `AppNavigator` interface
+- `core:route:deeplink` — `DeepLinkRouter` (pokedex:// scheme → back stack)
+- `core:route:navigation` — `AppNavDisplay` (NavDisplay host) + `NavBackStackNavigator`; **aggregates feature nav entries** (the one place features are referenced)
 - `core:observability` — AppLogger (Timber), Chucker
 - `core:testing` — fakes, TestDispatcherProvider
 - `core:ui` — PokemonStatBar and shared composables

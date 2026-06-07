@@ -1,0 +1,33 @@
+%% Diagram: Pokemon Compare - architecture & data flow | tlc-spec-driven
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#4f46e5', 'primaryTextColor': '#1e293b', 'primaryBorderColor': '#3730a3', 'lineColor': '#94a3b8', 'secondaryColor': '#10b981', 'tertiaryColor': '#f59e0b', 'background': '#ffffff', 'mainBkg': '#f8fafc', 'nodeBorder': '#cbd5e1', 'clusterBkg': '#f1f5f9', 'clusterBorder': '#e2e8f0', 'titleColor': '#1e293b', 'edgeLabelBackground': '#ffffff', 'textColor': '#334155'}}}%%
+flowchart TD
+    subgraph list["feature:pokemon-list - alterado"]
+        listScreen["PokemonListScreen<br/>botao Comparar + contador n/2"]
+        listViewModel[PokemonListViewModel]
+        listReducer["PokemonListReducer<br/>+ isCompareMode, selectedIds"]
+        listScreen -->|"ToggleCompareMode / ToggleSelection"| listViewModel
+        listViewModel --> listReducer
+    end
+
+    listViewModel -->|"Event.NavigateToCompare(a,b)"| compareKey
+    compareKey["PokemonCompareKey(a,b)<br/>core:route:keys"] --> navDisplay
+    navDisplay["AppNavDisplay<br/>core:route:navigation"] -->|pokemonCompareEntry| compareScreen
+
+    subgraph compare["feature:pokemon-compare - novo"]
+        compareScreen[CompareScreen] --> compareViewModel[CompareViewModel]
+        compareViewModel -->|"async x2"| useCase[GetPokemonDetailUseCase]
+        compareViewModel --> compareReducer[CompareReducer]
+        compareViewModel --> compareMapper["toCompareUiModel<br/>+ buildStatComparison"]
+    end
+
+    useCase --> repository[("PokemonRepository<br/>inalterado")]
+
+    classDef altered fill:#f59e0b,stroke:#d97706,color:#ffffff;
+    classDef created fill:#4f46e5,stroke:#3730a3,color:#ffffff;
+    classDef route fill:#64748b,stroke:#475569,color:#ffffff;
+    classDef data fill:#10b981,stroke:#059669,color:#ffffff;
+
+    class listScreen,listViewModel,listReducer altered;
+    class compareScreen,compareViewModel,compareReducer,compareMapper,useCase created;
+    class compareKey,navDisplay route;
+    class repository data;
