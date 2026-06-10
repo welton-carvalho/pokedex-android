@@ -2,6 +2,7 @@ package br.com.pokedex.core.route.deeplink
 
 import android.content.Intent
 import androidx.navigation3.runtime.NavKey
+import br.com.pokedex.core.route.keys.PokemonCompareKey
 import br.com.pokedex.core.route.keys.PokemonDetailKey
 import br.com.pokedex.core.route.keys.PokemonListKey
 
@@ -19,6 +20,17 @@ class DeepLinkRouter {
         url.startsWith("pokedex://pokemon/") -> {
             val id = url.removePrefix("pokedex://pokemon/").toIntOrNull()
             id?.let { PokemonDetailKey(it) }
+        }
+        url.startsWith("pokedex://compare/") -> {
+            // pokedex://compare/{id1}/{id2} — valida ambos os ids (SECURITY-05)
+            val parts = url.removePrefix("pokedex://compare/").split("/")
+            val first = parts.getOrNull(0)?.toIntOrNull()
+            val second = parts.getOrNull(1)?.toIntOrNull()
+            if (first != null && first > 0 && second != null && second > 0) {
+                PokemonCompareKey(first, second)
+            } else {
+                null
+            }
         }
         else -> null
     }

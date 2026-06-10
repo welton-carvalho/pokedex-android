@@ -15,4 +15,5 @@ dependencies {
     implementation(project(":core:route:deeplink"))
     implementation(project(":feature:pokemon-list"))
     implementation(project(":feature:pokemon-detail"))
+    implementation(project(":feature:pokemon-compare"))
 }
