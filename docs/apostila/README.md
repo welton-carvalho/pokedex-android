@@ -22,9 +22,12 @@ Siga os capítulos em ordem. No Capítulo 2 (hands-on) há checkpoints **"⏸️
 |---|---|---|
 | 1 | [01-setup-e-fundamentos.md](01-setup-e-fundamentos.md) | Stack, estrutura de módulos, convenções (MVI, isolamento de features, convention plugins), como rodar |
 | 2 | [02-hands-on-construindo-a-feature.md](02-hands-on-construindo-a-feature.md) | **Hands-on**: construir `feature:pokemon-compare` passo a passo + seleção na lista + rota/deep link + testes |
-| 3 | [03-extensions-validador-design-system.md](03-extensions-validador-design-system.md) | **Extension AI-DLC**: criar um validador que verifica se a tela usa o Design System (opt-in + regras + enforcement) |
-| 4 | [04-ferramentas-de-apoio.md](04-ferramentas-de-apoio.md) | **Ferramenta de apoio**: case do *Feature Scaffolder* + testes de arquitetura (Konsist) como guardrails |
-| 5 | [05-aidlc-multiplas-features.md](05-aidlc-multiplas-features.md) | **A dúvida**: o que é compartilhado vs. específico por feature; como iniciar uma nova feature; como tratar alteração na mesma feature |
+| 3 | [03-extensions-validador-design-system.md](03-extensions-validador-design-system.md) | **Extension AI-DLC** (mecanismo oficial): criar um validador que verifica se a tela usa o Design System (`*.opt-in.md` + regras `## Rule DESIGNSYS-NN` + enforcement) |
+| 4 | [04-ferramentas-de-apoio.md](04-ferramentas-de-apoio.md) | **Supporting Tools oficiais** do AI-DLC (AIDLC Evaluator e AIDLC Design Reviewer) e como usá-los nos artefatos do PokedexLab |
+| 5 | [05-aidlc-multiplas-features.md](05-aidlc-multiplas-features.md) | **A dúvida**: como o AI-DLC **realmente** trata os arquivos (`aidlc-state.md`, `audit.md`, `requirements/`, `construction/{unit}/`) ao iniciar outra feature ou alterar a mesma |
+| 6 | [06-hands-on-alteracao-mantendo-specs.md](06-hands-on-alteracao-mantendo-specs.md) | **Hands-on de alteração**: aplicar o fix DESIGNSYS-01 pelo ciclo adaptativo do AI-DLC, mantendo specs/docs (GUIDE, requirements, audit, state) em sincronia |
+
+> **Fonte oficial:** [github.com/awslabs/aidlc-workflows](https://github.com/awslabs/aidlc-workflows). Esta apostila segue o AI-DLC como ele é — não introduz convenções fora do framework.
 
 ## Mapa mental do que vamos construir (Cap. 2)
 
