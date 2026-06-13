@@ -8,6 +8,3 @@ data object PokemonListKey : NavKey
 
 @Serializable
 data class PokemonDetailKey(val pokemonId: Int) : NavKey
-
-@Serializable
-data class PokemonCompareKey(val firstId: Int, val secondId: Int) : NavKey

@@ -8,7 +8,6 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import br.com.pokedex.core.route.deeplink.DeepLinkRouter
 import br.com.pokedex.core.route.keys.PokemonListKey
-import br.com.pokedex.feature.pokemoncompare.navigation.pokemonCompareEntry
 import br.com.pokedex.feature.pokemondetail.navigation.pokemonDetailEntry
 import br.com.pokedex.feature.pokemonlist.navigation.pokemonListEntry
 
@@ -27,7 +26,6 @@ fun AppNavDisplay(initialIntent: Intent? = null) {
         entryProvider = entryProvider {
             pokemonListEntry(navigator)
             pokemonDetailEntry(navigator)
-            pokemonCompareEntry(navigator)
         }
     )
 }
