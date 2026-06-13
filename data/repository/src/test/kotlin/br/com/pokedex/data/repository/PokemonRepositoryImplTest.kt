@@ -50,24 +50,26 @@ class PokemonRepositoryImplTest {
     @BeforeEach
     fun setUp() {
         remote = mockk()
-        local = LocalPokemonDataSource()
+        local = mockk(relaxed = true)
         repository = PokemonRepositoryImpl(remote, local)
     }
 
     @Test
     fun `getPokemonDetail returns success and caches result`() = runTest {
         coEvery { remote.getPokemonDetail(1) } returns Result.Success(bulbasaurDto)
+        coEvery { remote.getPokemonSpecies(any()) } returns Result.Error(DomainError.Network)
+        coEvery { local.getPokemonDetail(1) } returns null
 
         val result = repository.getPokemonDetail(1)
 
         assertTrue(result is Result.Success)
         assertEquals("bulbasaur", (result as Result.Success).data.name)
-        assertEquals(FakePokemonData.bulbasaur, local.getPokemonDetail(1))
+        coVerify { local.savePokemonDetail(FakePokemonData.bulbasaur) }
     }
 
     @Test
     fun `getPokemonDetail falls back to cache on network error`() = runTest {
-        local.savePokemonDetail(FakePokemonData.bulbasaur)
+        coEvery { local.getPokemonDetail(1) } returns FakePokemonData.bulbasaur
         coEvery { remote.getPokemonDetail(1) } returns Result.Error(DomainError.Network)
 
         val result = repository.getPokemonDetail(1)
@@ -79,6 +81,7 @@ class PokemonRepositoryImplTest {
     @Test
     fun `getPokemonDetail returns error when network fails and cache is empty`() = runTest {
         coEvery { remote.getPokemonDetail(99) } returns Result.Error(DomainError.Network)
+        coEvery { local.getPokemonDetail(99) } returns null
 
         val result = repository.getPokemonDetail(99)
 
@@ -89,6 +92,8 @@ class PokemonRepositoryImplTest {
     @Test
     fun `getPokemonDetail calls remote exactly once`() = runTest {
         coEvery { remote.getPokemonDetail(1) } returns Result.Success(bulbasaurDto)
+        coEvery { remote.getPokemonSpecies(any()) } returns Result.Error(DomainError.Network)
+        coEvery { local.getPokemonDetail(1) } returns null
 
         repository.getPokemonDetail(1)
 
