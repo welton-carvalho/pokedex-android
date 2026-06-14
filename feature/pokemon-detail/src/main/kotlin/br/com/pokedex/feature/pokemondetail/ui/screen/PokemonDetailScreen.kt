@@ -35,6 +35,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -48,6 +49,7 @@ import br.com.pokedex.core.designsystem.theme.Subtitle1Bold
 import br.com.pokedex.core.designsystem.theme.Subtitle2Bold
 import br.com.pokedex.core.designsystem.theme.White
 import br.com.pokedex.core.ui.PokemonStatBar
+import br.com.pokedex.feature.pokemondetail.R
 import br.com.pokedex.feature.pokemondetail.ui.event.PokemonDetailEvent
 import br.com.pokedex.feature.pokemondetail.ui.intent.PokemonDetailIntent
 import br.com.pokedex.feature.pokemondetail.ui.model.PokemonDetailUiModel
@@ -99,7 +101,7 @@ fun PokemonDetailScreen(
 }
 
 @Composable
-private fun PokemonDetailContent(
+internal fun PokemonDetailContent(
     pokemon: PokemonDetailUiModel,
     onBack: () -> Unit,
     onNavigateToNext: () -> Unit,

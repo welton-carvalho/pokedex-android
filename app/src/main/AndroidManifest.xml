@@ -14,6 +14,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PokedexLab">
+
+        <property
+            android:name="android.app.appfunctions.app_metadata"
+            android:resource="@xml/app_metadata" />
+
+        <service
+            android:name="androidx.appfunctions.service.AppFunctionService"
+            android:exported="true"
+            android:permission="android.permission.BIND_APP_FUNCTIONS">
+            <intent-filter>
+                <action android:name="android.app.appsearch.AppFunctionService" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -22,6 +36,12 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="pokedex" />
             </intent-filter>
         </activity>
     </application>

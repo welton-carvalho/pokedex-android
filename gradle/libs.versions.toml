@@ -1,7 +1,7 @@
 [versions]
 agp = "9.1.1"
 kotlin = "2.2.10"
-ksp = "2.2.10-1.0.31"
+ksp = "2.2.10-2.0.2"
 kotlinSerialization = "2.2.21"
 kotlinxSerializationCore = "1.9.0"
 
@@ -36,6 +36,9 @@ paging = "3.3.6"
 # Observability
 timber = "5.0.1"
 chucker = "4.0.0"
+
+# AppFunctions
+appfunctions = "1.0.0-alpha09"
 
 # Testing
 junit = "4.13.2"
@@ -96,6 +99,11 @@ objectbox-android = { group = "io.objectbox", name = "objectbox-android", versio
 objectbox-android-objectbrowser = { group = "io.objectbox", name = "objectbox-android-objectbrowser", version.ref = "objectbox" }
 objectbox-kotlin = { group = "io.objectbox", name = "objectbox-kotlin", version.ref = "objectbox" }
 objectbox-processor = { group = "io.objectbox", name = "objectbox-processor", version.ref = "objectbox" }
+
+# AppFunctions
+androidx-appfunctions = { group = "androidx.appfunctions", name = "appfunctions", version.ref = "appfunctions" }
+androidx-appfunctions-service = { group = "androidx.appfunctions", name = "appfunctions-service", version.ref = "appfunctions" }
+androidx-appfunctions-compiler = { group = "androidx.appfunctions", name = "appfunctions-compiler", version.ref = "appfunctions" }
 
 # Observability
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }

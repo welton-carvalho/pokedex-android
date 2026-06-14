@@ -1,0 +1,12 @@
+<AppFunctionAppMetadata xmlns:appfn="http://schemas.android.com/apk/androidx.appfunctions"
+    appfn:description="This app is a Pokédex that allows browsing Pokémon data.
+
+Operational Patterns:
+- Always call 'listPokemons' first to obtain valid pokemonId values before calling 'openPokemonDetail'.
+- Use 'listPokemons' to present the user with a list of Pokémons to choose from.
+- After the user picks a Pokémon, call 'openPokemonDetail' with the selected pokemonId to navigate directly to that Pokémon's detail screen.
+
+Constraints:
+- 'listPokemons' returns the first 50 Pokémons from the Pokédex.
+- pokemonId values are positive integers returned by 'listPokemons'."
+    appfn:displayDescription="@string/app_name" />

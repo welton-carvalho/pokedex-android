@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.pokedexlab.android.application)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -21,6 +22,28 @@ android {
             )
         }
     }
+}
+
+ksp {
+    arg("appfunctions:aggregateAppFunctions", "true")
+}
+
+// KSP 2.0 + AGP 9.x: generated assets aren't auto-registered; register source dirs and
+// declare explicit task dependencies so Gradle validates the ordering correctly.
+android {
+    sourceSets {
+        getByName("debug") {
+            assets.srcDir("build/generated/ksp/debug/resources/assets")
+        }
+        getByName("release") {
+            assets.srcDir("build/generated/ksp/release/resources/assets")
+        }
+    }
+}
+
+afterEvaluate {
+    tasks.named("mergeDebugAssets") { dependsOn("kspDebugKotlin") }
+    tasks.named("mergeReleaseAssets") { dependsOn("kspReleaseKotlin") }
 }
 
 // objectbox-android-objectbrowser includes objectbox-android — exclude to avoid duplicate classes in debug
@@ -52,6 +75,10 @@ dependencies {
     releaseImplementation(libs.objectbox.android)
     debugImplementation(libs.objectbox.android.objectbrowser)
     implementation(project(":data:repository"))
+
+    implementation(libs.androidx.appfunctions)
+    implementation(libs.androidx.appfunctions.service)
+    ksp(libs.androidx.appfunctions.compiler)
 
     debugImplementation(libs.bundles.compose.debug)
     androidTestImplementation(platform(libs.androidx.compose.bom))

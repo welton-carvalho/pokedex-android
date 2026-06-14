@@ -2,6 +2,8 @@ package br.com.pokedex
 
 import android.app.Application
 import io.objectbox.android.Admin
+import androidx.appfunctions.service.AppFunctionConfiguration
+import br.com.pokedex.appfunctions.PokemonAppFunctions
 import br.com.pokedex.core.common.di.commonModule
 import br.com.pokedex.core.observability.AppLogger
 import br.com.pokedex.data.local.di.localModule
@@ -21,10 +23,15 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
-class PokedexLabApplication : Application() {
+class PokedexLabApplication : Application(), AppFunctionConfiguration.Provider {
 
     lateinit var boxStore: BoxStore
         private set
+
+    override val appFunctionConfiguration: AppFunctionConfiguration
+        get() = AppFunctionConfiguration.Builder()
+            .addEnclosingClassFactory(PokemonAppFunctions::class.java) { PokemonAppFunctions() }
+            .build()
 
     override fun onCreate() {
         super.onCreate()
