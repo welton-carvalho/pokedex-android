@@ -1,0 +1,26 @@
+appId: br.com.pokedex
+tags:
+  - smoke
+  - deeplink
+name: 09 — Deep link pokedex://pokemon/1 opens detail with synthetic back-to-list
+---
+- launchApp:
+    clearState: true
+- stopApp
+- openLink: "pokedex://pokemon/1"
+- extendedWaitUntil:
+    visible: "About"
+    timeout: 15000
+- assertVisible: "Bulbasaur"
+- assertVisible: "#001"
+- assertVisible: "Grass"
+- assertVisible: "Poison"
+- assertVisible: "6,9 kg"
+- assertVisible: "0,7 m"
+- assertVisible: "Base Stats"
+- back
+- extendedWaitUntil:
+    visible: "Pokédex"
+    timeout: 5000
+- assertVisible: "Search"
+- assertVisible: "Bulbasaur"

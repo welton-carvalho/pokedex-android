@@ -1,0 +1,17 @@
+appId: br.com.pokedex
+tags:
+  - deeplink
+name: 10 — Deep link pokedex://list opens list directly
+---
+- launchApp:
+    clearState: true
+- stopApp
+- openLink: "pokedex://list"
+- extendedWaitUntil:
+    visible: "Pokédex"
+    timeout: 15000
+- assertVisible: "Search"
+- extendedWaitUntil:
+    visible: "Bulbasaur"
+    timeout: 20000
+- assertVisible: "#001"
