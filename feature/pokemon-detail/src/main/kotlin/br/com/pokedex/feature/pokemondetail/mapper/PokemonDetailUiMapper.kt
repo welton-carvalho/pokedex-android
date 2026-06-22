@@ -5,6 +5,7 @@ import br.com.pokedex.core.designsystem.util.PokemonImageUrlProvider
 import br.com.pokedex.core.model.Pokemon
 import br.com.pokedex.feature.pokemondetail.ui.model.PokemonDetailUiModel
 import br.com.pokedex.feature.pokemondetail.ui.model.StatUiModel
+import java.util.Locale
 
 private val statLabelMap = mapOf(
     "hp" to "HP",
@@ -15,6 +16,8 @@ private val statLabelMap = mapOf(
     "speed" to "SPD",
 )
 
+private val brLocale: Locale = Locale.forLanguageTag("pt-BR")
+
 fun Pokemon.toDetailUiModel(): PokemonDetailUiModel {
     val primaryType = types.minByOrNull { it.slot }?.name ?: "normal"
     return PokemonDetailUiModel(
@@ -23,9 +26,13 @@ fun Pokemon.toDetailUiModel(): PokemonDetailUiModel {
         imageUrl = PokemonImageUrlProvider.officialArtwork(id),
         typeColor = pokemonTypeColor(primaryType),
         types = types.sortedBy { it.slot }.map { it.name },
-        height = "${height / 10.0}m",
-        weight = "${weight / 10.0}kg",
-        abilities = abilities.filter { !it.isHidden }.map { it.name.replace('-', ' ').replaceFirstChar { c -> c.uppercase() } },
+        height = String.format(brLocale, "%.1f m", height / 10.0),
+        weight = String.format(brLocale, "%.1f kg", weight / 10.0),
+        abilities = abilities
+            .sortedByDescending { it.isHidden }
+            .map { ability ->
+                ability.name.replace('-', ' ').replaceFirstChar { c -> c.uppercase() }
+            },
         stats = stats.map { stat ->
             StatUiModel(
                 label = statLabelMap[stat.name] ?: stat.name.uppercase(),

@@ -1,0 +1,16 @@
+appId: br.com.pokedex
+tags:
+  - compare
+name: 07 — Compare mode toggle off restores normal search bar
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Bulbasaur"
+    timeout: 20000
+- assertVisible: "Search"
+- tapOn: "Compare"
+- assertVisible: "Pick two Pokémon to compare"
+- tapOn: "Exit compare mode"
+- assertVisible: "Search"
+- assertNotVisible: "Pick two Pokémon to compare"

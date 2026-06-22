@@ -1,0 +1,22 @@
+appId: br.com.pokedex
+tags:
+  - compare
+name: 06 — Compare deselect (tap selected card again removes it from selection)
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Bulbasaur"
+    timeout: 20000
+- tapOn: "Compare"
+- assertVisible: "Pick two Pokémon to compare"
+- tapOn: "Bulbasaur"
+- tapOn: "Bulbasaur"
+- assertVisible: "Pick two Pokémon to compare"
+- assertNotVisible: "Base Stats"
+- tapOn: "Venusaur"
+- tapOn: "Charmander"
+- extendedWaitUntil:
+    visible: "Compare"
+    timeout: 10000
+- assertVisible: "Base Stats"

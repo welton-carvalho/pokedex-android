@@ -1,0 +1,23 @@
+appId: br.com.pokedex
+tags:
+  - list
+  - paging
+name: 08 — Paging triggers when scrolling past first page (50 items)
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Bulbasaur"
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      text: "Diglett"
+    direction: DOWN
+    timeout: 30000
+- assertVisible: "Diglett"
+- scrollUntilVisible:
+    element:
+      text: "Dugtrio"
+    direction: DOWN
+    timeout: 30000
+- assertVisible: "Dugtrio"

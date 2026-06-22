@@ -1,0 +1,21 @@
+appId: br.com.pokedex
+tags:
+  - smoke
+  - list
+name: 01 — List smoke (app launches and grid renders)
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Pokédex"
+    timeout: 15000
+- assertVisible: "Search"
+- extendedWaitUntil:
+    visible: "Bulbasaur"
+    timeout: 20000
+- assertVisible: "Bulbasaur"
+- assertVisible: "Ivysaur"
+- assertVisible: "Venusaur"
+- assertVisible: "#001"
+- assertVisible: "#002"
+- assertVisible: "#003"

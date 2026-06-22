@@ -1,0 +1,20 @@
+appId: br.com.pokedex
+tags:
+  - detail
+  - navigation
+name: 03 — Detail back returns to list
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Bulbasaur"
+    timeout: 20000
+- tapOn: "Bulbasaur"
+- extendedWaitUntil:
+    visible: "Base Stats"
+    timeout: 15000
+- assertNotVisible: "Pokédex"
+- back
+- assertVisible: "Pokédex"
+- assertVisible: "Search"
+- assertVisible: "Bulbasaur"

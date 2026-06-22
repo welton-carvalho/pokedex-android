@@ -1,0 +1,19 @@
+appId: br.com.pokedex
+tags:
+  - smoke
+  - compare
+name: 05 — Compare happy path (select 2 Pokémon → navigates to Compare screen)
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Bulbasaur"
+    timeout: 20000
+- tapOn: "Compare"
+- assertVisible: "Pick two Pokémon to compare"
+- tapOn: "Bulbasaur"
+- tapOn: "Ivysaur"
+- extendedWaitUntil:
+    visible: "Compare"
+    timeout: 10000
+- assertVisible: "Base Stats"

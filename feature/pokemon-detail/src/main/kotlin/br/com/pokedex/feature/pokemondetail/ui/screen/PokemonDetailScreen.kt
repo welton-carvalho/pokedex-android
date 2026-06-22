@@ -13,9 +13,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -111,13 +109,15 @@ private fun PokemonDetailContent(
             .fillMaxSize()
             .background(typeColor),
     ) {
-        // Pokeball watermark — top-right, partially off screen (matches Figma: center x=248, y=112)
+        // Pokeball watermark — large, partially off-screen to the top-right (matches Figma: center
+        // sits around 77% from left and 25% from top of the green header area, with ~20% of the
+        // disc bleeding past the right edge).
         PokeballWatermark(
             color = White,
             modifier = Modifier
-                .size(220.dp)
+                .size(280.dp)
                 .align(Alignment.TopEnd)
-                .offset(y = 18.dp),
+                .offset(x = 40.dp, y = (-30).dp),
         )
 
         Column(modifier = Modifier.fillMaxSize()) {
@@ -150,17 +150,18 @@ private fun PokemonDetailContent(
             }
 
             Box(modifier = Modifier.fillMaxSize()) {
-                // White content card — starts at 160dp (Figma: white card y=224, header y=64)
+                // White content card — green header area is 200dp tall (Figma keeps the artwork
+                // overlapping the card edge by only ~12% of its height). Base Stats sits at the
+                // bottom of the card; a flexible Spacer absorbs the remaining vertical space.
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = 160.dp)
+                        .padding(top = 200.dp)
                         .background(
                             color = White,
                             shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
                         )
-                        .padding(top = 56.dp)
-                        .verticalScroll(rememberScrollState()),
+                        .padding(top = 56.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     // Type chips
@@ -188,7 +189,7 @@ private fun PokemonDetailContent(
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.weight(1f))
 
                     Text(text = "Base Stats", style = Subtitle1Bold, color = typeColor)
 
@@ -213,34 +214,40 @@ private fun PokemonDetailContent(
                     Spacer(modifier = Modifier.height(32.dp))
                 }
 
-                // Pokemon artwork — top at 16dp from inner box (Figma: image y=80, header=64)
+                // Pokemon artwork — 24dp below the header so it has breathing room before the
+                // green-to-white transition (matches Figma: artwork sits in the lower portion of
+                // the green header area).
                 AsyncImage(
                     model = pokemon.imageUrl,
                     contentDescription = pokemon.name,
                     modifier = Modifier
                         .size(200.dp)
                         .align(Alignment.TopCenter)
-                        .offset(y = 16.dp),
+                        .offset(y = 24.dp),
                 )
 
-                // Navigation chevrons — centered at 132dp (Figma: chevron y=196, header=64)
-                IconButton(
-                    onClick = onBack,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .offset(y = 108.dp),
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Previous Pokémon",
-                        tint = White,
-                    )
+                // Navigation chevrons — vertically aligned with the artwork center (Figma places
+                // them slightly below center). Hidden on the left when there is no previous
+                // Pokémon (id == 1) to match the Figma reference.
+                if (pokemon.id > 1) {
+                    IconButton(
+                        onClick = onBack,
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .offset(y = 116.dp),
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Previous Pokémon",
+                            tint = White,
+                        )
+                    }
                 }
                 IconButton(
                     onClick = onNavigateToNext,
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .offset(y = 108.dp),
+                        .offset(y = 116.dp),
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowForward,

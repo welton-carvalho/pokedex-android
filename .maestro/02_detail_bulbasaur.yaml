@@ -1,0 +1,36 @@
+appId: br.com.pokedex
+tags:
+  - smoke
+  - detail
+name: 02 — Detail screen for Bulbasaur (validates Figma alignment)
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Bulbasaur"
+    timeout: 20000
+- tapOn: "Bulbasaur"
+- extendedWaitUntil:
+    visible: "About"
+    timeout: 15000
+- assertVisible: "#001"
+- assertVisible: "Grass"
+- assertVisible: "Poison"
+- assertVisible: "About"
+- assertVisible: "6,9 kg"
+- assertVisible: "0,7 m"
+- assertVisible: "Weight"
+- assertVisible: "Height"
+- assertVisible: "Moves"
+- assertVisible: "Chlorophyll"
+- assertVisible: "Overgrow"
+- assertVisible: "Base Stats"
+- assertVisible: "HP"
+- assertVisible: "ATK"
+- assertVisible: "DEF"
+- assertVisible: "SATK"
+- assertVisible: "SDEF"
+- assertVisible: "SPD"
+- assertVisible: "045"
+- assertVisible: "049"
+- assertVisible: "065"

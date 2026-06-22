@@ -1,0 +1,24 @@
+appId: br.com.pokedex
+tags:
+  - detail
+name: 04 — Detail screen for Ivysaur (different content from Bulbasaur)
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Ivysaur"
+    timeout: 20000
+- tapOn: "Ivysaur"
+- extendedWaitUntil:
+    visible: "About"
+    timeout: 15000
+- assertVisible: "#002"
+- assertVisible: "Grass"
+- assertVisible: "Poison"
+- assertVisible: "13,0 kg"
+- assertVisible: "1,0 m"
+- assertVisible: "Overgrow"
+- assertVisible: "Chlorophyll"
+- assertVisible: "Base Stats"
+- assertNotVisible: "6,9 kg"
+- assertNotVisible: "0,7 m"
